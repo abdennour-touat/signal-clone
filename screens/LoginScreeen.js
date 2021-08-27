@@ -13,8 +13,8 @@ const LoginScreeen = ({navigation}) => {
 
   }
   return (
-    <KeyboardAvoidingView style={styles.container}> 
-      <StatusBar style="light" />
+    <KeyboardAvoidingView style={styles.container} > 
+      <StatusBar style="dark" />
       <Image
         source={{
           uri: "https://play-lh.googleusercontent.com/jCln_XT8Ruzp7loH1S6yM-ZzzpLP1kZ3CCdXVEo0tP2w5HNtWQds6lo6aLxLIjiW_X8",
@@ -24,8 +24,7 @@ const LoginScreeen = ({navigation}) => {
       <View style={styles.inputContainer}>
         <Input
           placeholder="Email"
-          autoFocus
-          type="email"
+S          type="email"
           value={login.email}
           onChangeText={(email) => setLogin({ ...login, email })}
         />
