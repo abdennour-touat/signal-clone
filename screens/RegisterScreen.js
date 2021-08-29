@@ -30,7 +30,7 @@ const RegisterScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 1,
+      quality: 0,
     });
 
     if (!result.cancelled) {
@@ -47,10 +47,23 @@ const RegisterScreen = ({ navigation }) => {
       const uri = register.image;
       const response = await fetch(uri);
       const blob = await response.blob();
-
-      const result = await storage
+        console.log(blob, 'blob')
+       const result = await storage
         .ref(`users/${authUser.user.uid}/profileImage`)
         .put(blob);
+        console.log(result, 'result')
+        
+        // authUser.user.updateProfile({
+        //   displayName: register.name,
+        //   photoURL: register.image
+        // })
+        setRegister({
+          fullName: '',
+          email: '',
+          password: '',
+          image: null
+        })
+
     } catch (error) {
       alert(error);
     }
@@ -82,7 +95,6 @@ const RegisterScreen = ({ navigation }) => {
           value={register.password}
           onChangeText={(password) => setRegister({ ...register, password })}
         />
-        <Input placeholder="full Name" type="text" value={register.fullName} />
         <Button
           containerStyle={{ backgroundColor: "red" }}
           title="set Profile Image"

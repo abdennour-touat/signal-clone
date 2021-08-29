@@ -11,7 +11,6 @@ const firebaseConfig = {
 };
 
 let app;
-console.log(firebase)
 if (firebase.apps.length === 0) {
   app = firebase.initializeApp(firebaseConfig);
 } else {
@@ -23,3 +22,9 @@ const auth = firebase.auth();
 const storage = firebase.storage(app);
 
 export { db, auth, storage };
+
+
+// storage
+// .ref(`users/${authUser.uid}/profileImage`)
+// .getDownloadURL()
+// .then((imgURl) => {});
