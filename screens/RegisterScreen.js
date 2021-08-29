@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { StatusBar } from "expo-status-bar";
 import { KeyboardAvoidingView } from "react-native";
 import { StyleSheet, View } from "react-native";
 import { Button, Input, Text, Icon } from "react-native-elements/";
 import * as ImagePicker from "expo-image-picker";
-
-const register = () => {};
+import { storage, auth, db } from "../firebase";
 
 const RegisterScreen = ({ navigation }) => {
   const [register, setRegister] = useState({
@@ -39,6 +38,23 @@ const RegisterScreen = ({ navigation }) => {
     }
   };
 
+  const Login = async () => {
+    try {
+      const authUser = await auth.createUserWithEmailAndPassword(
+        register.email,
+        register.password
+      );
+      const uri = register.image;
+      const response = await fetch(uri);
+      const blob = await response.blob();
+
+      const result = await storage
+        .ref(`users/${authUser.user.uid}/profileImage`)
+        .put(blob);
+    } catch (error) {
+      alert(error);
+    }
+  };
   return (
     <KeyboardAvoidingView style={styles.container}>
       <StatusBar style="light" />
@@ -77,7 +93,7 @@ const RegisterScreen = ({ navigation }) => {
         containerStyle={styles.button}
         raised
         title="Register"
-        onPress={() => register()}
+        onPress={() => Login()}
         icon={<Icon name="done" size={15} color="white" />}
       ></Button>
     </KeyboardAvoidingView>

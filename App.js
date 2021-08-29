@@ -5,6 +5,7 @@ import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 import LoginScreeen from "./screens/LoginScreeen";
 import RegisterScreen from "./screens/RegisterScreen";
+import HomeScreen from './screens/HomeScreen'
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,13 @@ export default function App() {
           }}
           name="RegisterScreen"
           component={RegisterScreen}
+        />
+         <Stack.Screen
+          options={{
+            title: "Home",
+          }}
+          name="HomeScreen"
+          component={HomeScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

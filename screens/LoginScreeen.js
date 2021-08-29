@@ -1,13 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View , KeyboardAvoidingView} from "react-native";
 import { Button, Input, Image } from "react-native-elements/";
+import { auth, storage } from "../firebase";
 
 const LoginScreeen = ({navigation}) => {
   const [login, setLogin] = useState({
     email: "",
     password: "",
   });
+
+  useEffect(()=>{
+    const unsub = auth.onAuthStateChanged((authUser)=>{
+      if(authUser){
+        navigation.replace('HomeScreen');
+        storage.ref(`users/${authUser.uid}/profileImage}`).getDownloadURL().then(imgURl=>{
+          console.log(imgURl)
+        })
+      }
+    });
+    return ()=>{
+      unsub();
+    }
+  },[])
 
   const signIn = ()=>{
 
