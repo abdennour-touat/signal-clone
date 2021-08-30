@@ -30,7 +30,7 @@ const RegisterScreen = ({ navigation }) => {
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
-      quality: 0,
+      quality: 1,
     });
 
     if (!result.cancelled) {
@@ -44,26 +44,29 @@ const RegisterScreen = ({ navigation }) => {
         register.email,
         register.password
       );
+
+      authUser.user
+        .updateProfile({
+          displayName: register.fullName,
+        })
+        .then(() => {})
+        .catch((error) => {
+          console.log(error);
+        });
+
       const uri = register.image;
       const response = await fetch(uri);
       const blob = await response.blob();
-        console.log(blob, 'blob')
-       const result = await storage
+      const result = await storage
         .ref(`users/${authUser.user.uid}/profileImage`)
         .put(blob);
-        console.log(result, 'result')
-        
-        // authUser.user.updateProfile({
-        //   displayName: register.name,
-        //   photoURL: register.image
-        // })
-        setRegister({
-          fullName: '',
-          email: '',
-          password: '',
-          image: null
-        })
 
+      setRegister({
+        fullName: "",
+        email: "",
+        password: "",
+        image: null,
+      });
     } catch (error) {
       alert(error);
     }

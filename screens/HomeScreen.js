@@ -14,7 +14,6 @@ import { auth, storage } from "../firebase";
 
 const HomeScreen = ({ navigation }) => {
   const [img, setImg] = useState("");
-  console.log(img)
   storage
     .ref(`users/${auth.currentUser.uid}/profileImage`)
     .getDownloadURL()
@@ -38,6 +37,7 @@ const HomeScreen = ({ navigation }) => {
               uri: img,
             }}
           />
+          <Text style={{ color: "white" }}>{auth.currentUser.displayName}</Text>
         </View>
       ),
     });

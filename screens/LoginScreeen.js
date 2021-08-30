@@ -13,9 +13,7 @@ const LoginScreeen = ({ navigation }) => {
   useEffect(() => {
     const unsub = auth.onAuthStateChanged((authUser) => {
       if (authUser) {
-        console.log(authUser)
         navigation.replace("HomeScreen");
-       
       }
       setMounted(true);
     });
