@@ -22,7 +22,15 @@ const LoginScreeen = ({ navigation }) => {
     };
   }, []);
 
-  const signIn = () => {};
+  const signIn = async () => {
+    try {
+      const authUser = await auth.signInWithEmailAndPassword(login.email, login.password)
+      console.log(authUser)
+    } catch (error) {
+      alert(error)
+    }
+   
+  };
   if (mounted) {
     return (
       <KeyboardAvoidingView style={styles.container}>

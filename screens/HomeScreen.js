@@ -11,18 +11,20 @@ import {
 import CustomListItem from "../components/CustomListItem";
 import { Avatar } from "react-native-elements/dist/avatar/Avatar";
 import { auth, storage } from "../firebase";
+import { AntDesign, SimpleLineIcons } from "@expo/vector-icons";
+import { Button } from "react-native";
 
 const HomeScreen = ({ navigation }) => {
   const [img, setImg] = useState("");
   storage
-    .ref(`users/${auth.currentUser.uid}/profileImage`)
+    .ref(`users/${auth.currentUser?.uid}/profileImage`)
     .getDownloadURL()
     .then((imgURl) => {
       setImg(imgURl);
     });
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: "messages",
+      title: "signal",
       headerStyle: {
         backgroundColor: "white",
       },
@@ -37,17 +39,43 @@ const HomeScreen = ({ navigation }) => {
               uri: img,
             }}
           />
-          <Text style={{ color: "white" }}>{auth.currentUser.displayName}</Text>
+        </View>
+      ),
+      headerRight: () => (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: 80,
+            marginRight: 20,
+          }}
+        >
+          <TouchableOpacity activeOpacity={0.5}>
+            <AntDesign name="camerao" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>{ navigation.navigate('AddChat')}} activeOpacity={0.5}>
+            <SimpleLineIcons name="pencil" size={24} color="black" />
+          </TouchableOpacity>
         </View>
       ),
     });
-  }, []);
+  }, [navigation]);
+  const logOut = async() =>{
+    try {
+      await auth.signOut();
+      navigation.navigate('LoginScreen')
+      
+    } catch (error) {
+      alert(error)
+    }
+  }
   return (
     <SafeAreaView>
       <StatusBar />
       <ScrollView>
         <CustomListItem />
       </ScrollView>
+      <Button title = 'logout'onPress={()=>logOut()}></Button>
     </SafeAreaView>
   );
 };
